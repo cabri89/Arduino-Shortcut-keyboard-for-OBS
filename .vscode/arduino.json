@@ -2,5 +2,5 @@
     "board": "SparkFun:avr:promicro",
     "configuration": "cpu=16MHzatmega32U4",
     "port": "COM13",
-    "sketch": "app.ino"
+    "sketch": "app\\app.ino"
 }

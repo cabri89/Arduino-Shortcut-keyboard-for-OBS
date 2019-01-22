@@ -10,13 +10,14 @@ a momentary pushbutton.
 */
 
 #include <Keyboard.h>
-#include <string> 
-int keys[] = {2, 3, 4, 5, 6, 7};
 
+int keys[] = {1, 2, 3, 4, 5, 6, 7, 8};
+int keysF[] = {KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F8};
 void setup()
 {
     Serial.begin(9600);
-    for (int i = 2; i < 7; ++i) {
+    for (int i = 1; i < 8; ++i) {
+        Serial.print(i);
         // initilize pins
         pinMode(i, INPUT);
         digitalWrite(i, HIGH); // Pull the button high
@@ -25,15 +26,17 @@ void setup()
 
 void loop()
 {
-    for (int i = 2; i < 7; ++i)
+    for (int i = 1; i < 8; ++i)
     {
         // check buttons
         if (readButton(i)){
-        Keyboard.press(KEY_LEFT_CTRL);
-        Keyboard.press(KEY_RIGHT_ALT);
-        Keyboard.press(std::to_string(i));
-        Serial.print(i);
-        delay(100);
+            Keyboard.press(KEY_LEFT_CTRL);
+            Keyboard.press(KEY_RIGHT_ALT);
+            Keyboard.press(keysF[i]);
+            delay(100);
+            Keyboard.release(KEY_LEFT_CTRL);
+            Keyboard.release(KEY_RIGHT_ALT);
+            Keyboard.release(keysF[i]);
         }
     }
 }
@@ -41,10 +44,10 @@ void loop()
 boolean readButton(int pin)
 {
     // check and debounce buttons
-    if (digitalRead(pin) == HIGH)
+    if (digitalRead(pin) == LOW)
     {
         delay(10);
-        if (digitalRead(pin) == HIGH)
+        if (digitalRead(pin) == LOW)
         {
             return true;
         }
